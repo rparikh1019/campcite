@@ -119,12 +119,16 @@ const DEMO_MODE_KEY = "campcite_demo_mode";
 export function enableDemoMode() {
   if (typeof window !== "undefined") {
     localStorage.setItem(DEMO_MODE_KEY, "true");
+    // Also set a cookie for server-side detection
+    document.cookie = `${DEMO_MODE_KEY}=true; path=/; max-age=86400`;
   }
 }
 
 export function disableDemoMode() {
   if (typeof window !== "undefined") {
     localStorage.removeItem(DEMO_MODE_KEY);
+    // Also remove the cookie
+    document.cookie = `${DEMO_MODE_KEY}=; path=/; max-age=0`;
   }
 }
 
