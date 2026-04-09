@@ -22,6 +22,15 @@ export default function SignupPage() {
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // If Supabase isn't configured, redirect to demo mode
+    if (!supabase) {
+      enableDemoMode();
+      toast.success("Supabase not configured. Starting demo mode...");
+      window.location.href = "/dashboard";
+      return;
+    }
+
     setLoading(true);
 
     const { error } = await supabase.auth.signUp({

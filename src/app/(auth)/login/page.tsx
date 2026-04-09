@@ -22,6 +22,15 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // If Supabase isn't configured, redirect to demo mode
+    if (!supabase) {
+      enableDemoMode();
+      toast.success("Supabase not configured. Starting demo mode...");
+      window.location.href = "/dashboard";
+      return;
+    }
+
     setLoading(true);
 
     const { error } = await supabase.auth.signInWithPassword({
@@ -41,6 +50,14 @@ export default function LoginPage() {
   const handleMagicLink = async () => {
     if (!email) {
       toast.error("Please enter your email address");
+      return;
+    }
+
+    // If Supabase isn't configured, redirect to demo mode
+    if (!supabase) {
+      enableDemoMode();
+      toast.success("Supabase not configured. Starting demo mode...");
+      window.location.href = "/dashboard";
       return;
     }
 
